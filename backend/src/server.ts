@@ -21,7 +21,7 @@ app.get('/', (req, res) => {
 
     axios({
         method: "get",
-        url: "https://transporteservico.urbs.curitiba.pr.gov.br/getPontosLinha.php?linha=870&c=98ad8",
+        url: "https://transporteservico.urbs.curitiba.pr.gov.br/getShapeLinha.php?linha=466&c=98ad8",
       })
       .then(function (response) {
         res.send( response.data)
