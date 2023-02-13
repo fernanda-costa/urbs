@@ -1,18 +1,16 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-const BASE_URL = "http://localhost:4000/linhas/shape/:id";
+const BASE_URL = "http://localhost:4000/veiculos/linha/:id";
 
 @Injectable({
   providedIn: 'root'
 })
-export class LinhasService {
+export class VeiculosService {
 
   constructor(private httpClient: HttpClient) { }
 
-
-  getLinhas() {
+  getLocalizacaoAtual() {
     return this.httpClient.get(`${BASE_URL}`)
   }
-
 }

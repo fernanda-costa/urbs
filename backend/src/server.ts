@@ -1,6 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import axios from 'axios'
+import routes from './routes/routes'
 
 const PORT = process.env.PORT || 4000
 const HOSTNAME = process.env.HOSTNAME || 'http://localhost'
@@ -17,17 +18,7 @@ app.use((req, res, next) => {
   next();
 })
 
-app.get('/', (req, res) => {
-
-    axios({
-        method: "get",
-        url: "https://transporteservico.urbs.curitiba.pr.gov.br/getShapeLinha.php?linha=466&c=98ad8",
-      })
-      .then(function (response) {
-        res.send( response.data)
-      });
-
-})
+routes(app);
 
 app.use(cors({ origin: '*'}))
 
