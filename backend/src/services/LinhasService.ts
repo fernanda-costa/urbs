@@ -8,6 +8,6 @@ export class LinhasService {
 
 
     async buscarShape(linhaId: number) {
-        return axios({ method: "get", url: "https://transporteservico.urbs.curitiba.pr.gov.br/getShapeLinha.php?linha=466&c=98ad8" })
+        return axios({ method: "get", url: "https://transporteservico.urbs.curitiba.pr.gov.br/getShapeLinha.php?linha=022&c=98ad8" })
     }
 }
