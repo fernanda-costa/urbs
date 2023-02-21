@@ -1,8 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import express from "express";
-import { Linha } from "../models/Linha";
-import { Ponto } from "../models/Ponto";
-import { Shape } from "../models/Shape";
+import { Ponto } from "../models/ponto";
+
 
 export class PontoController {
 

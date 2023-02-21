@@ -1,5 +1,5 @@
 import express from "express";
-import LinhasController from "../controllers/LinhaController";
+import LinhasController from "../controllers/linha-controller";
 
 const router = express.Router();
 

@@ -1,5 +1,5 @@
 import express from "express";
-import { VeiculoController } from "../controllers/VeiculoController";
+import { VeiculoController } from "../controllers/veiculo-controller";
 
 const router = express.Router();
 

@@ -1,10 +1,6 @@
-import axios, { AxiosResponse } from "axios";
 import express from "express";
-import { Linha } from "../models/Linha";
-import { Ponto } from "../models/Ponto";
-import { Shape } from "../models/Shape";
-import { Veiculo } from "../models/Veiculo";
-import { LinhasService } from '../services/LinhasService';
+import { Shape } from "../models/shape";
+import { LinhasService } from '../services/linha-service';
 
 
 export default class LinhasController {

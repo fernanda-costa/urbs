@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import express from 'express';
-import { Veiculo } from "../models/Veiculo";
-import { VeiculosService } from "../services/VeiculosService";
+import { Veiculo } from "../models/veiculo";
+import { VeiculosService } from "../services/veiculo-service";
 
 
 export class VeiculoController {

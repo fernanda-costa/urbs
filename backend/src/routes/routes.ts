@@ -1,6 +1,6 @@
 import express from "express";
-import linhasRoutes from "./LinhaRoute";
-import veiculosRoutes from "./VeiculosRoute";
+import linhasRoutes from "./linha-route";
+import veiculosRoutes from "./veiculo-route";
 
 const Routes = (app: any) => {
   app.route('/').get((req: express.Request, res: express.Response) => {
