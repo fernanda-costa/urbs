@@ -1,6 +1,7 @@
 import express from "express";
 import linhasRoutes from "./linha-route";
 import veiculosRoutes from "./veiculo-route";
+import pontosRoutes from "./pontos-route";
 
 const Routes = (app: any) => {
   app.route('/').get((req: express.Request, res: express.Response) => {
@@ -11,6 +12,7 @@ const Routes = (app: any) => {
     express.json(),
     linhasRoutes,
     veiculosRoutes,
+    pontosRoutes
   )
 }
 
