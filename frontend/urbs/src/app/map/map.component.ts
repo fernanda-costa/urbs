@@ -26,10 +26,10 @@ export class MapComponent implements OnInit {
 
   ngOnInit() {
     this.linhasService.getLinhas().subscribe((e: any) => {
+      console.log(e)
       this.linhas = e;
 
       this.shape = e.map((e: any) => { return { lat: Number(e.latitude), lng: Number(e.longitude) } })
-
 
       const mapProperties = {
         center: new google.maps.LatLng(this.shape[0].lat, this.shape[0].lng),
@@ -59,6 +59,7 @@ export class MapComponent implements OnInit {
 
   private buscarLocalizacaoAtualOnibus() {
     this.onibusService.getLocalizacaoAtual().subscribe((veiculos: any) => {
+      console.log(veiculos)
       this.deleteMarkers();
       veiculos.forEach((veiculo: any) => {
         const marker = new google.maps.Marker({

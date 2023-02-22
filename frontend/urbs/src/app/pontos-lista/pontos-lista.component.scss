@@ -1,0 +1,32 @@
+td {
+  padding: 20px 10px;
+  background-color: lightgray;
+
+  img {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+td:has(img) {
+  text-align: center;
+}
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0px 8px;
+}
+
+.filtros {
+
+  background-color: lightgray;
+  padding: 48px 10px;
+  margin: 30px 0px;
+  border-radius: 8px;
+  display: flex;
+
+  input, select {
+    width: 40%;
+  }
+}

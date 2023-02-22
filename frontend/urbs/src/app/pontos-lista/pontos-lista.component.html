@@ -1,0 +1,22 @@
+<div class="container">
+
+<div class="filtros">
+  <input class="form-control me-2" type="text" placeholder="Endereço">
+  <select class="form-control me-2">
+    <option value="">Tipo do ponto</option>
+  </select>
+  <select class="form-control me-2">
+    <option value="">Linha</option>
+  </select>
+  <button type="button" class="btn btn-primary">Filtrar</button>
+</div>
+
+  <table>
+    <tr *ngFor="let ponto of pontos">
+      <td><img src="assets/imgs/ponto-onibus.png"></td>
+      <td>{{ponto.NOME}}</td>
+    </tr>
+  </table>
+
+  <button type="button" class="btn btn-primary">Visualizar no mapa</button>
+</div>
