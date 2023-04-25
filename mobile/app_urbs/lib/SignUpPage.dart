@@ -8,7 +8,6 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  final _formKey = GlobalKey<FormState>();
   DateTime? _data;
   String _nome = '';
   String _email = '';
@@ -17,6 +16,7 @@ class _SignUpPageState extends State<SignUpPage> {
   String _cpf = '';
   String _senha = '';
   String _confirmarSenha = '';
+    final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -31,10 +31,9 @@ class _SignUpPageState extends State<SignUpPage> {
           height: size.height,
           color: Color.fromARGB(255, 101, 107, 112),
           padding: EdgeInsets.all(20.0),
-          child: Center(
+          child: Form(
             key: _formKey,
             child: Column(
-              // mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 SizedBox(
@@ -213,20 +212,20 @@ class _SignUpPageState extends State<SignUpPage> {
                   },
                 ),
                 SizedBox(height: 50.0),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => SignUpPage()),
-                      );
-                    },
-                    child: Text('Criar conta'),
-                    style: ElevatedButton.styleFrom(
-                      primary: Color.fromARGB(255, 234, 51, 35),
-                      onPrimary: Colors.white,
-                      minimumSize: Size(200, 50),
-                    ),
+                ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      _formKey.currentState!.save();
+                      // aqui você pode fazer o que quiser com os dados do formulário
+                    }
+                  },
+                  child: Text('Criar conta'),
+                  style: ElevatedButton.styleFrom(
+                    primary: Color.fromARGB(255, 234, 51, 35),
+                    onPrimary: Colors.white,
+                    minimumSize: Size(200, 50),
                   ),
+                ),
               ],
             ),
           ),
