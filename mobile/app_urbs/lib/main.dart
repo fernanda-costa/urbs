@@ -2,6 +2,8 @@ import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:app_urbs/SignUpPage.dart';
+import 'package:http/http.dart' as http;
+import "dart:convert";
 
 void main() {
   runApp(
@@ -12,6 +14,10 @@ void main() {
 }
 
 class LoginPage extends StatelessWidget {
+  final _formKey = GlobalKey<FormState>();
+  String _nome = '';
+  String _senha = '';
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -25,7 +31,8 @@ class LoginPage extends StatelessWidget {
           width: size.width,
           height: size.height,
           color: Color.fromARGB(255, 101, 107, 112),
-          child: Center(
+          child: Form(
+            key: _formKey,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -47,6 +54,9 @@ class LoginPage extends StatelessWidget {
                         borderSide: BorderSide(color: Colors.white),
                       ),
                     ),
+                    onSaved: (value) {
+                      _nome = value!;
+                    },
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
@@ -67,11 +77,41 @@ class LoginPage extends StatelessWidget {
                     ),
                     obscureText: true,
                     style: TextStyle(color: Colors.white),
+                    onSaved: (value) {
+                      _senha = value!;
+                    },
                   ),
                 ),
                 SizedBox(height: 50),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      User user = User(
+                        username: _nome,
+                        password: _senha,
+                      );
+                      try {
+                        // faz uma requisição com os dados do usuário
+                        final response = await http.post(
+                          Uri.parse('https://exemplo.com/api/login'),
+                          body: jsonEncode(<String, String>{
+                            'username': user.username,
+                            'password': user.password,
+                          }),
+                        );
+
+                        // verifica se a resposta foi bem sucedida
+                        if (response.statusCode == 200) {
+                          // faz algo com os dados de retorno
+                        } else {
+                          throw Exception(
+                              'Erro ao efetuar login: ${response.statusCode}');
+                        }
+                      } catch (e) {
+                        throw Exception('Erro ao efetuar login: $e');
+                      }
+                    }
+                  },
                   child: Text('Entrar'),
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size(200, 50),
@@ -80,7 +120,6 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 15),
-                
                 ElevatedButton(
                   onPressed: () {
                     Navigator.push(
@@ -102,4 +141,11 @@ class LoginPage extends StatelessWidget {
       ),
     );
   }
+}
+
+class User {
+  final String username;
+  final String password;
+
+  User({required this.username, required this.password});
 }

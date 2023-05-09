@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:http/http.dart' as http;
+import "dart:convert";
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -9,14 +11,15 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   DateTime? _data;
-  String _nome = '';
+  String _name = '';
   String _email = '';
-  String _dataNascimento = '';
-  String _telefone = '';
+  String _date = '';
+  String _phone = '';
   String _cpf = '';
-  String _senha = '';
-  String _confirmarSenha = '';
-    final _formKey = GlobalKey<FormState>();
+  String _password = '';
+  String _confirmPassword = '';
+
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +59,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       return null;
                     },
                     onSaved: (value) {
-                      _nome = value!;
+                      _name = value!;
                     },
                   ),
                 ),
@@ -106,7 +109,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     return null;
                   },
                   onSaved: (value) {
-                    _dataNascimento = value!;
+                    _date = value!;
                   },
                   keyboardType: TextInputType.number,
                   inputFormatters: [
@@ -134,7 +137,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     return null;
                   },
                   onSaved: (value) {
-                    _telefone = value!;
+                    _phone = value!;
                   },
                 ),
                 SizedBox(height: 20.0),
@@ -182,7 +185,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     if (value!.length < 8) {
                       return 'A senha deve ter no mínimo 8 caracteres.';
                     }
-                    _senha = value!;
+                    _password = value!;
                     return null;
                   },
                 ),
@@ -204,19 +207,51 @@ class _SignUpPageState extends State<SignUpPage> {
                     if (value != null && value.isEmpty) {
                       return 'Por favor, confirme sua senha.';
                     }
-                    if (value != _senha) {
+                    if (value != _password) {
                       return 'As senhas não coincidem.';
                     }
-                    _confirmarSenha = value!;
+                    _confirmPassword = value!;
                     return null;
                   },
                 ),
                 SizedBox(height: 50.0),
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      _formKey.currentState!.save();
-                      // aqui você pode fazer o que quiser com os dados do formulário
+                      Register register = Register(
+                          username: _name,
+                          password: _password,
+                          email: _email,
+                          date: _date,
+                          phone: _phone,
+                          cpf: _cpf,
+                          confirmPassword: _confirmPassword);
+
+                      try {
+                        // faz uma requisição com os dados do usuário
+                        final response = await http.post(
+                          Uri.parse('https://exemplo.com/api/login'),
+                          body: jsonEncode(<String, String>{
+                            'username': register.username,
+                            'email': register.email,
+                            'date': register.date,
+                            'phone': register.phone,
+                            'password': register.password,
+                            'cpf': register.cpf,
+                            'confirmPassword': register.confirmPassword
+                          }),
+                        );
+
+                        // verifica se a resposta foi bem sucedida
+                        if (response.statusCode == 200) {
+                          // faz algo com os dados de retorno
+                        } else {
+                          throw Exception(
+                              'Erro ao efetuar cadastro: ${response.statusCode}');
+                        }
+                      } catch (e) {
+                        throw Exception('Erro ao efetuar cadastro: $e');
+                      }
                     }
                   },
                   child: Text('Criar conta'),
@@ -234,17 +269,6 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 }
-
-// class _DateInputTextFieldState extends State<DateInputTextField> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return TextField(
-//       keyboardType: TextInputType.number,
-//       inputFormatters: [DateTextFormatter()],
-//       onChanged: (String value) {},
-//     );
-//   }
-// }
 
 class DateTextFormatter extends TextInputFormatter {
   @override
@@ -278,4 +302,23 @@ class DateTextFormatter extends TextInputFormatter {
   TextSelection updateCursorPosition(String text) {
     return TextSelection.fromPosition(TextPosition(offset: text.length));
   }
+}
+
+class Register {
+  final String username;
+  final String password;
+  final String email;
+  final String date;
+  final String phone;
+  final String cpf;
+  final String confirmPassword;
+
+  Register(
+      {required this.username,
+      required this.password,
+      required this.email,
+      required this.date,
+      required this.phone,
+      required this.cpf,
+      required this.confirmPassword});
 }
